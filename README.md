@@ -13,6 +13,7 @@ Prerequisites
 Node.js
 NPM
 MySQL (or any supported SQL database)
+TestPostman
 
 
 ### Installation
@@ -135,3 +136,8 @@ Copy code
 {
     "message": "Error message",
 }
+
+
+### Test
+Below is the link to my postman documentation
+https://documenter.getpostman.com/view/36172220/2sAY4vfMgq
