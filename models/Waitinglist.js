@@ -22,5 +22,4 @@ const WaitingList = sequelize.define('WaitingList', {
 });
 
 
-
 module.exports = WaitingList;

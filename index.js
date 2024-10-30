@@ -13,8 +13,8 @@ dotenv.config();
 
 
 // connect our code to the database
-sequelize.sync().then(() => {
-    console.log("Database connected");
+sequelize.sync({ alter: true }).then(() => {
+    console.log("Database Connection Established");
     }).catch((err) => {
         console.log(err);
         });
@@ -27,7 +27,7 @@ app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
 app.use("/api/event", eventRoute);
 
-// to listen to the application
-app.listen(process.env.PORT || 3307, () => {
-    console.log("Backend services is running");
-    });
+const PORT = process.env.PORT || 3307;
+app.listen(PORT, () => {
+    console.log(`Backend services is running on ${PORT}`);
+});
