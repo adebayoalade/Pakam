@@ -1,7 +1,8 @@
-Event-booking API
+# Event-booking API
+
 This API provides functionality for managing events, including ticket booking, user management, and real-time status updates. The main functionalities include user registration and login, event creation and booking, and status checking for events.
 
-Table of Contents
+## Table of Contents
 Getting Started
 Environment Variables
 Endpoints
@@ -12,32 +13,38 @@ Prerequisites
 Node.js
 NPM
 MySQL (or any supported SQL database)
-Installation
 
+
+### Installation
 bash
 Copy code
 git clone https://github.com/your-username/event-management-api.git
 cd event-management-api
 Install dependencies:
 
+
+
 bash
 Copy code
 npm install
 Set up environment variables in a .env file. See Environment Variables for details.
 
+
+
 bash
 npm sequelize-cli db:migrate
 Start the server:
+
 
 bash
 Copy code
 npm run start
 The API will be available at http://localhost:3307.
 
-Environment Variables
+### Environment Variables
 Set up a .env file in the root directory with the following values:
 
-Endpoints
+### Endpoints
 Signup
 URL: POST /auth/signup
 Description: Registers a new user.
@@ -59,6 +66,8 @@ Copy code
     "email": "name",
     "password": "password"
 }
+
+
 Update User
 URL: PUT /user/admin/:userId
 Description: Updates user information.
