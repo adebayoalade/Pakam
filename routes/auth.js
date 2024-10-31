@@ -1,4 +1,5 @@
 const express = require("express");
+const limiter = require("../middleware/limiter");
 const router = express.Router();
 
 const cryptoJS = require("crypto-js");
@@ -7,7 +8,7 @@ const User = require("../models/User");
 
 
 //signup
-router.post('/signup', async (req, res) => {
+router.post('/signup', limiter, async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
@@ -43,7 +44,7 @@ router.post('/signup', async (req, res) => {
 
 
 //Login
-router.post("/login", async (req, res) => {
+router.post("/login", limiter, async (req, res) => {
   try {
       const user = await User.findOne({
           where: {

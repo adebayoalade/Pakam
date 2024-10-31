@@ -1,13 +1,14 @@
 const express = require('express')
 const Event = require('../models/Event')
 const WaitingList = require('../models/Waitinglist')
+const limiter = require("../middleware/limiter")
 const sequelize = require('../config/database')
 
 const router = express.Router();
 
 
 //initialize an event
-router.post("/initialize",  async(req, res) => {
+router.post("/initialize", limiter, async(req, res) => {
   const { name, totalTickets } = req.body;
   try {
     const event = await Event.create({
@@ -23,7 +24,7 @@ router.post("/initialize",  async(req, res) => {
 
 
 // Book ticket
-router.post("/book", async (req, res) => {
+router.post("/book", limiter, async (req, res) => {
     const { eventId, userId } = req.body;
 
     // Validate request body
@@ -51,7 +52,7 @@ router.post("/book", async (req, res) => {
 
 
 //Cancel booking
-router.post("/cancel", async(req, res) => {
+router.post("/cancel", limiter, async(req, res) => {
     const { eventId} = req.body;
     try {
         await sequelize.transaction(async (t) => {
@@ -75,7 +76,7 @@ router.post("/cancel", async(req, res) => {
 
 
 //view event status
-router.get("/status/:eventId", async(req, res) => {
+router.get("/status/:eventId", limiter, async(req, res) => {
     try {
         const event = await Event.findByPk(req.params.eventId);
         if (!event) {
