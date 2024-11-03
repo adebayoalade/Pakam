@@ -16,9 +16,10 @@ describe("POST /events/initialize", () => {
     });
 
   it("should create an event and return 201 status", async () => {
+
     // Mock data for successful creation
     const mockEvent = { name: "Sample Event", totalTickets: 50, availableTickets: 50 };
-    Event.create.mockResolvedValue(mockEvent); // Mock Event.create to return mockEvent
+    Event.create.mockResolvedValue(mockEvent);
 
     const response = await request(app)
       .post("/events/initialize")
@@ -50,7 +51,7 @@ describe("POST /events/book", () => {
     it("should return 400 if required fields are missing", async () => {
         const response = await request(app)
             .post("/events/book")
-            .send({}); // Missing fields
+            .send({});
 
         expect(response.status).toBe(400);
         expect(response.body).toHaveProperty("message", "Event ID and User ID are required");
@@ -58,7 +59,7 @@ describe("POST /events/book", () => {
 
     it("should return 500 if event is not found", async () => {
         const bookingData = { eventId: 1, userId: 1 };
-        Event.findByPk.mockResolvedValue(null); // Event not found
+        Event.findByPk.mockResolvedValue(null);
 
         const response = await request(app)
             .post("/events/book")
@@ -69,7 +70,7 @@ describe("POST /events/book", () => {
     });
 
     it("should return 500 status if there is an internal server error", async () => {
-        Event.findByPk.mockRejectedValue(new Error("Database error")); // Simulate internal server error
+        Event.findByPk.mockRejectedValue(new Error("Database error"));
 
         const response = await request(app)
             .post("/events/book")
