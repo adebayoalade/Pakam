@@ -18,7 +18,7 @@ router.post("/initialize", limiter, async(req, res) => {
     });
     res.status(201).json(event);
   } catch (error) {
-    res.status(500).json(error);
+    res.status(500).json({ message: error.message || "An error occurred" });
   }
 });
 
@@ -29,14 +29,16 @@ router.post("/book", limiter, async (req, res) => {
 
     // Validate request body
     if (!eventId || !userId) {
-        return res.status(400).json({ error: 'Event ID and User ID are required' });
+        return res.status(400).json({ message: 'Event ID and User ID are required' });
     }
+
     try {
         await sequelize.transaction(async (t) => {
             const event = await Event.findByPk(eventId, { transaction: t });
             if (!event) {
-                return res.status(404).json({ error: 'Event not found' });
+                return res.status(404).json({ message: 'Event not found' });
             }
+
             if (event.availableTickets > 0) {
                 await event.decrement('availableTickets', { by: 1, transaction: t });
                 return res.status(200).json({ message: 'Ticket booked successfully' });
@@ -46,6 +48,7 @@ router.post("/book", limiter, async (req, res) => {
             }
         });
     } catch (error) {
+        console.error("Error during booking:", error); // Optional: log the error
         return res.status(500).json({ message: "Internal Server Error", error: error.message });
     }
 });
@@ -76,7 +79,7 @@ router.post("/cancel", limiter, async(req, res) => {
 
 
 //view event status
-router.get("/status/:eventId", limiter, async(req, res) => {
+router.get("/status/:eventId", async(req, res) => {
     try {
         const event = await Event.findByPk(req.params.eventId);
         if (!event) {
