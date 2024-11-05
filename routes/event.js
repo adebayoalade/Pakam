@@ -24,7 +24,7 @@ router.post("/initialize", limiter, async(req, res) => {
 
 
 // Book ticket
-router.post("/book", limiter, async (req, res) => {
+router.post("/book", async (req, res) => {
     const { eventId, userId } = req.body;
 
     // Validate request body
